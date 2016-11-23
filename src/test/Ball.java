@@ -9,6 +9,9 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+
+
+// add some comment
 public class Ball extends Ellipse2D {
 	int width = Board.width;
 	int height = Board.height;
