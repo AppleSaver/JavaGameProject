@@ -8,34 +8,65 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 
 
 // add some comment
 public class Ball extends Ellipse2D {
-	int width = Board.width;
-	int height = Board.height;
-	int xDirection=1;
-	int yDirection=1;
+	int width = Board.boardWidth;
+	int height = Board.boardHeight;
+	int xDirection=3;
+	int yDirection=3;
 	int uLeftXCor, uLeftYCor;
 	public static int diameter = 30;
 	private Ellipse2D ellipse = new Ellipse2D.Double(uLeftXCor, uLeftYCor, diameter, diameter);
+	static ArrayList<Ball> balls = new ArrayList<Ball>();
+	
 	
 	public Ball(int RandomX, int RandomY){
-		super();
+		
+		this.xDirection = (int) (Math.random() * 4 + 1);
+		this.yDirection = (int) (Math.random() * 4 + 1);
+		
 		this.uLeftXCor = RandomX;
 		this.uLeftYCor = RandomY;
-		ellipse = new Ellipse2D.Double(uLeftXCor, uLeftYCor, diameter, diameter);
+		//ellipse = new Ellipse2D.Double(uLeftXCor, uLeftYCor, diameter, diameter);
 	}
 	public void move() {
-        if (uLeftXCor + xDirection < 0)
-            xDirection = 1;
-        if (uLeftXCor + xDirection > width - diameter-20)
-            xDirection = -1;
-        if (uLeftYCor + yDirection < 0)
-            yDirection = 1;
-        if (uLeftYCor + yDirection > height - diameter-40)
-            yDirection = -1;
+		  
+		
+		        Rectangle2D ballToCheck = this.getBounds2D();
+		
+		        for(Ball ball : balls){
+
+		            Rectangle2D otherBall = ball.getBounds2D();
+		
+		            if(ball != this && otherBall.intersects(ballToCheck)){
+
+		                int tempXDirection = this.xDirection;
+		
+		                int tempYDirection = this.yDirection;
+
+		                this.xDirection = ball.xDirection;
+		
+		                this.yDirection = ball.yDirection;
+
+		                ball.xDirection = tempXDirection;
+		
+		                ball.yDirection = tempYDirection;
+
+		            }
+		 } // END OF NEW STUFF
+
+        if (uLeftXCor + xDirection < 10)
+            xDirection = 3;
+        if (uLeftXCor + xDirection > height - diameter-30)
+            xDirection = -3;
+        if (uLeftYCor + yDirection < 10)
+            yDirection = 3;
+        if (uLeftYCor + yDirection > width - diameter-50)
+            yDirection = -3;
         
         uLeftXCor = uLeftXCor + xDirection;
         uLeftYCor = uLeftYCor + yDirection;
